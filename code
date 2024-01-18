@@ -13,7 +13,7 @@ import random
 def to_markdown(text):
   text = text.replace('•', '  *')
   return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
-genai.configure(api_key='AIzaSyABDV4YZPHy37ZdYGXKpvID9fMoHHzMIpU')
+genai.configure(api_key='YOUR_API_KEY')
 model = genai.GenerativeModel('gemini-pro')
 goal = random.randint(10,50)
 def gem_res(Q):
