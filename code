@@ -1,1 +1,33 @@
+!pip install -q -U google-generativeai
+!pip install gradio
 
+import pathlib
+import textwrap
+import google.generativeai as genai
+from google.colab import userdata
+from IPython.display import display
+from IPython.display import Markdown
+import gradio as gr
+import random
+
+def to_markdown(text):
+  text = text.replace('•', '  *')
+  return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
+genai.configure(api_key='AIzaSyABDV4YZPHy37ZdYGXKpvID9fMoHHzMIpU')
+model = genai.GenerativeModel('gemini-pro')
+goal = random.randint(10,50)
+def gem_res(Q):
+  response = model.generate_content(Q)
+  count = len(response.text)
+  return count
+
+with gr.Blocks() as app:
+  gr.Markdown("生成ブラックジャック")
+
+  with gr.Tab(f"目標:{goal}"):
+    param = gr.Textbox(label = "質問等と入力")
+    result_param = gr.Textbox(label = "今回のスコア")
+    btn = gr.Button("Enter")
+    btn.click(fn=gem_res,inputs=param,outputs=result_param)
+
+app.launch()
